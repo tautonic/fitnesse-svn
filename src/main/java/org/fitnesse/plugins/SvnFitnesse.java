@@ -76,7 +76,9 @@ public class SvnFitnesse {
 		if (isIgnored(file)) {
 			return;
 		}
-		CommandExecutor.exec(buildCommand(payload, SvnCommand.COMMIT, file));
+		File f = new File(file);
+		String parent = f.getParent();
+		CommandExecutor.exec(buildCommand(payload, SvnCommand.COMMIT, parent));
 	}
 
 	/**
@@ -110,7 +112,9 @@ public class SvnFitnesse {
 		if (isIgnored(file)) {
 			return;
 		}
-		CommandExecutor.exec(buildCommand(payload, SvnCommand.COMMIT, file));
+		File f = new File(file);
+		String parent = f.getParent();
+		CommandExecutor.exec(buildCommand(payload, SvnCommand.COMMIT, parent));
 	}
 
 	private static boolean isIgnored(String filePath) {
@@ -154,7 +158,7 @@ public class SvnFitnesse {
 		String user = payloadMatcher.group(1);
 		String password = payloadMatcher.group(2);
 		String cmd = "svn" + addOptions + " --username " + user + " --password " + password + " " + 
-				command + " " + path;
+				command.toString().toLowerCase() + " " + path;
 		return cmd;
 	}
 }
